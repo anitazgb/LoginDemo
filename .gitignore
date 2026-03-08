@@ -1,0 +1,30 @@
+# Xcode build output
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Xcode user state
+*.xcuserstate
+*.xcscmblueprint
+
+# macOS junk
+.DS_Store
+*.swp
+*~.nib
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods (if you add it later)
+Pods/
+*.xcworkspace
+
+# Carthage (if you add it later)
+Carthage/Build/
+
+# Credentials (never commit secrets!)
+*.env
+Secrets.swift
