@@ -48,6 +48,11 @@ class AuthViewModel: ObservableObject {
         }
     }
 
+    func resetPassword() {
+        password = ""
+        errorMessage = ""
+    }
+
     func logout() {
         email = ""
         password = ""

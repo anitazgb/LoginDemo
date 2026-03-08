@@ -40,11 +40,14 @@ final class AuthViewModelTests: XCTestCase {
         XCTAssertFalse(sut.isFormValid, "Empty form should be invalid")
     }
 
-    //  Password < 6 chars = invalid
-    func testFormIsInvalidWhenPasswordTooShort() {
+    // Login with short password shows error message and does not log in
+    func testLoginWithShortPasswordShowsError() {
         sut.email = "test@example.com"
         sut.password = "abc"
-        XCTAssertFalse(sut.isFormValid, "Password shorter than 6 chars should be invalid")
+        sut.login()
+
+        XCTAssertFalse(sut.isLoggedIn, "Should not be logged in with short password")
+        XCTAssertEqual(sut.errorMessage, "Password must be at least 6 characters.", "Should show password length error")
     }
 
     // Valid email + password = valid form
@@ -98,6 +101,28 @@ final class AuthViewModelTests: XCTestCase {
 
         XCTAssertFalse(sut.isLoggedIn)
         XCTAssertFalse(sut.errorMessage.isEmpty, "Should show email validation error")
+    }
+
+    // MARK: - Reset Password
+
+    // Reset clears password field and error message
+    func testResetPasswordClearsPasswordAndError() {
+        sut.email = "test@example.com"
+        sut.password = "wrongpassword"
+        sut.errorMessage = "Invalid email or password."
+
+        sut.resetPassword()
+
+        XCTAssertEqual(sut.password, "", "Password should be cleared after reset")
+        XCTAssertEqual(sut.errorMessage, "", "Error message should be cleared after reset")
+        XCTAssertEqual(sut.email, "test@example.com", "Email should remain unchanged after reset")
+    }
+
+    // Reset does not affect login state
+    func testResetPasswordDoesNotAffectLoginState() {
+        sut.isLoggedIn = false
+        sut.resetPassword()
+        XCTAssertFalse(sut.isLoggedIn, "Login state should not change after reset")
     }
 
     // MARK: - Logout
