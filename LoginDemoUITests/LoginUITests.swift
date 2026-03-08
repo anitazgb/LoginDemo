@@ -77,6 +77,35 @@ final class LoginUITests: XCTestCase {
         XCTAssertFalse(loginButton.isEnabled, "Login button should be disabled when fields are empty")
     }
 
+    // MARK: - Reset Password
+
+    // Reset button clears the password field
+    func testResetPasswordButtonClearsPasswordField() {
+        let passwordField = app.secureTextFields["passwordField"]
+
+        passwordField.tap()
+        passwordField.typeText("somepassword")
+
+        app.buttons["resetPasswordButton"].tap()
+
+        XCTAssertEqual(passwordField.value as? String, "Password", "Password field should be empty after reset (shows placeholder)")
+    }
+
+    // Reset button clears error message from screen
+    func testResetPasswordButtonClearsErrorMessage() {
+        app.textFields["emailField"].tap()
+        app.textFields["emailField"].typeText("test@example.com")
+        app.secureTextFields["passwordField"].tap()
+        app.secureTextFields["passwordField"].typeText("wrongpass")
+        app.buttons["loginButton"].tap()
+
+        XCTAssertTrue(app.staticTexts["errorMessage"].waitForExistence(timeout: 3), "Error should appear first")
+
+        app.buttons["resetPasswordButton"].tap()
+
+        XCTAssertFalse(app.staticTexts["errorMessage"].exists, "Error message should disappear after reset")
+    }
+
     // MARK: - Logout
 
     // Logout brings back Login screen

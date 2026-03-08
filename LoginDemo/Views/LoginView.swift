@@ -50,6 +50,14 @@ struct LoginView: View {
                         .accessibilityIdentifier("errorMessage")
                 }
 
+                // Reset password button
+                Button(action: { viewModel.resetPassword() }) {
+                    Text("Reset Password")
+                        .font(.subheadline)
+                        .foregroundColor(.blue)
+                }
+                .accessibilityIdentifier("resetPasswordButton")
+
                 // Login button
                 Button(action: { viewModel.login() }) {
                     Group {
