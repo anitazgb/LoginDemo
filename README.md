@@ -1,5 +1,7 @@
 # LoginDemo — iOS Automation Testing Practice Project
 
+![Tests](https://github.com/anitazgb/LoginDemo/actions/workflows/tests.yml/badge.svg)
+
 A SwiftUI login app built specifically for learning iOS test automation.
 It has a **Login screen** and a **Home screen**, with unit tests and UI tests ready to run.
 
