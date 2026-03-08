@@ -16,12 +16,14 @@ final class AuthViewModelTests: XCTestCase {
     }
 
     // MARK: - Email Validation
-
+    
+    // Valid email returns true
     func testValidEmailPassesValidation() {
         XCTAssertTrue(sut.isValidEmail("test@example.com"))
         XCTAssertTrue(sut.isValidEmail("user.name+tag@domain.co"))
     }
 
+    // Invalid emails return false
     func testInvalidEmailFailsValidation() {
         XCTAssertFalse(sut.isValidEmail(""))
         XCTAssertFalse(sut.isValidEmail("notanemail"))
@@ -31,18 +33,21 @@ final class AuthViewModelTests: XCTestCase {
 
     // MARK: - Form Validation
 
+    // Empty fields = invalid form
     func testFormIsInvalidWhenEmpty() {
         sut.email = ""
         sut.password = ""
         XCTAssertFalse(sut.isFormValid, "Empty form should be invalid")
     }
 
+    //  Password < 6 chars = invalid
     func testFormIsInvalidWhenPasswordTooShort() {
         sut.email = "test@example.com"
         sut.password = "abc"
         XCTAssertFalse(sut.isFormValid, "Password shorter than 6 chars should be invalid")
     }
 
+    // Valid email + password = valid form
     func testFormIsValidWithCorrectInputs() {
         sut.email = "test@example.com"
         sut.password = "password123"
@@ -51,6 +56,7 @@ final class AuthViewModelTests: XCTestCase {
 
     // MARK: - Login Logic
 
+    // Correct creds sets isLoggedIn = true
     func testLoginWithCorrectCredentialsSetsIsLoggedIn() {
         let expectation = expectation(description: "Login completes")
 
@@ -67,6 +73,7 @@ final class AuthViewModelTests: XCTestCase {
         waitForExpectations(timeout: 2.0)
     }
 
+    // Wrong password shows error message
     func testLoginWithWrongPasswordShowsError() {
         let expectation = expectation(description: "Login fails with error")
 
@@ -83,6 +90,7 @@ final class AuthViewModelTests: XCTestCase {
         waitForExpectations(timeout: 2.0)
     }
 
+    // Invalid email shows validation error
     func testLoginWithInvalidEmailShowsValidationError() {
         sut.email = "not-an-email"
         sut.password = "password123"
@@ -94,6 +102,7 @@ final class AuthViewModelTests: XCTestCase {
 
     // MARK: - Logout
 
+    // Logout resets all fields
     func testLogoutClearsState() {
         // Arrange: simulate logged-in state
         sut.email = "test@example.com"

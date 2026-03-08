@@ -28,3 +28,7 @@ Carthage/Build/
 # Credentials (never commit secrets!)
 *.env
 Secrets.swift
+*.pem
+*.key
+*.pub
+sshfile*

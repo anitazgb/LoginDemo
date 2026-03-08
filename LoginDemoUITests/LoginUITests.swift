@@ -3,7 +3,7 @@ import XCTest
 final class LoginUITests: XCTestCase {
 
     var app: XCUIApplication!
-
+    // Creates a fresh AuthViewModel before each test
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
@@ -12,7 +12,8 @@ final class LoginUITests: XCTestCase {
         app.launchArguments = ["-UITests"]
         app.launch()
     }
-
+    
+    // Cleans up after each test
     override func tearDown() {
         app = nil
         super.tearDown()
@@ -20,6 +21,7 @@ final class LoginUITests: XCTestCase {
 
     // MARK: - Screen Elements Exist
 
+    // Checks email, password, button are on screen
     func testLoginScreenElementsAreVisible() {
         XCTAssertTrue(app.textFields["emailField"].exists, "Email field should be visible")
         XCTAssertTrue(app.secureTextFields["passwordField"].exists, "Password field should be visible")
@@ -28,6 +30,7 @@ final class LoginUITests: XCTestCase {
 
     // MARK: - Successful Login
 
+    // Full login flow reaches Home screen
     func testLoginWithValidCredentialsNavigatesToHome() {
         // Arrange
         let emailField = app.textFields["emailField"]
@@ -50,6 +53,7 @@ final class LoginUITests: XCTestCase {
 
     // MARK: - Failed Login
 
+    // Wrong password shows error on screen
     func testLoginWithWrongPasswordShowsError() {
         let emailField = app.textFields["emailField"]
         let passwordField = app.secureTextFields["passwordField"]
@@ -66,6 +70,7 @@ final class LoginUITests: XCTestCase {
         XCTAssertTrue(errorMessage.waitForExistence(timeout: 3), "Error message should appear")
     }
 
+    // Button disabled when fields empty
     func testLoginButtonIsDisabledWithEmptyFields() {
         let loginButton = app.buttons["loginButton"]
         // Button should be disabled (dimmed) when fields are empty
@@ -74,6 +79,7 @@ final class LoginUITests: XCTestCase {
 
     // MARK: - Logout
 
+    // Logout brings back Login screen
     func testLogoutReturnsToLoginScreen() {
         // First log in
         app.textFields["emailField"].tap()
